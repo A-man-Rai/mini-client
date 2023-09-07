@@ -14,7 +14,7 @@ function ZoomPopupCloser() {
     });
     return null; // This component doesn't render anything
 }
-function MapComponent({setMap,setInfo}) {
+function MapComponent() {
       
     return (
       <div className="map-container" >
@@ -25,7 +25,7 @@ function MapComponent({setMap,setInfo}) {
                {ConstantData.map((info, index) => (
              <Marker key={index} position={[info.latitude, info.longitude]}>
              <Popup>
-                 <CustomCard link={info.link} setMap={setMap} setInfo={setInfo}/>
+                 <CustomCard link={info.link}/>
              </Popup>
              <ZoomPopupCloser/>
              </Marker>

@@ -5,10 +5,28 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
-import MenuIcon from '@mui/icons-material/Menu';
 import ReplyIcon from '@mui/icons-material/Reply';
 import Login from '../Login/Login';
-export default function NavBar({setMap,setIsLogged}) {
+import { useDispatch } from "react-redux";
+// Update imported action creator names
+import { setMapStatus, setInfoStatus, setLoggedStatus } from "../../store/slices/HomeSlice";
+
+export default function NavBar() {
+  const dispatch = useDispatch();
+
+  // Use the updated action creator names
+  const handleSetMapStatus = (bool) => {
+    dispatch(setMapStatus(bool));
+  };
+
+  const handleSetInfoStatus = (bool) => {
+    dispatch(setInfoStatus(bool));
+  };
+
+  const handleSetLoggedStatus = (bool) => {
+    dispatch(setLoggedStatus(bool));
+  };
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
@@ -19,20 +37,28 @@ export default function NavBar({setMap,setIsLogged}) {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={() => {
+              handleSetMapStatus(true);
+              handleSetInfoStatus(false);
+              handleSetLoggedStatus(false);
+            }}
           >
-           <ReplyIcon onClick={()=>{
-                 setMap(true);
-                 setIsLogged(false);
-           }}/>
+            <ReplyIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            ACCIDENT SURVEY
+            ACCIDENT 
           </Typography>
           
-          <Button color="inherit" onClick={()=>{
-            setIsLogged(true)
-            setMap(false)
-          }} >Report Us</Button>
+          <Button 
+            color="inherit"
+            onClick={() => {
+              handleSetLoggedStatus(true);
+              handleSetMapStatus(false);
+              handleSetInfoStatus(false);
+            }}
+          >
+            Report Us
+          </Button>
           <Login />
         </Toolbar>
       </AppBar>
