@@ -14,11 +14,6 @@ const router = createBrowserRouter([
     element: <Home/>,
     errorElement: <ErrorPage />, 
   },
-  {
-    path:"/notify",
-    element:<Notify/>
-
-  }
 ]);
 
 function App(){

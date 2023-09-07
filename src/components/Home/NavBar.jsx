@@ -7,12 +7,17 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import ReplyIcon from '@mui/icons-material/Reply';
 import Login from '../Login/Login';
-import { useDispatch } from "react-redux";
+import { useDispatch ,useSelector} from "react-redux";
 // Update imported action creator names
 import { setMapStatus, setInfoStatus, setLoggedStatus } from "../../store/slices/HomeSlice";
 
-export default function NavBar() {
+export default function NavBar(){
   const dispatch = useDispatch();
+  
+  const isLogin = useSelector(state => state.login.isLogin);
+
+
+ 
 
   // Use the updated action creator names
   const handleSetMapStatus = (bool) => {
@@ -26,6 +31,9 @@ export default function NavBar() {
   const handleSetLoggedStatus = (bool) => {
     dispatch(setLoggedStatus(bool));
   };
+
+
+
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -49,6 +57,7 @@ export default function NavBar() {
             ACCIDENT 
           </Typography>
           
+        { isLogin &&
           <Button 
             color="inherit"
             onClick={() => {
@@ -58,7 +67,7 @@ export default function NavBar() {
             }}
           >
             Report Us
-          </Button>
+          </Button> }  
           <Login />
         </Toolbar>
       </AppBar>
