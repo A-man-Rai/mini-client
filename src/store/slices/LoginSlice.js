@@ -5,6 +5,7 @@ const loginSlicer = createSlice({
     initialState:{
         isLogin:false,
         isRegistered:false,
+        isError:false,
     },
     reducers: {
         setLogin(state, action) {
@@ -12,9 +13,12 @@ const loginSlicer = createSlice({
         },
         setRegistered(state,action){
             state.isRegistered= action.payload;  
+        },
+        setError(state,action){
+            state.isError=action.payload;
         }
     },
 });
 
 export default loginSlicer.reducer;
-export const {setLogin,setRegistered } = loginSlicer.actions;
+export const {setLogin,setRegistered,setError } = loginSlicer.actions;

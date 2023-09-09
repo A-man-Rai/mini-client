@@ -1,57 +1,57 @@
-import React, { useState } from 'react';
-import { Button, TextField, Grid, Container, Typography } from '@mui/material';
+import * as React from 'react';
+import { Box , Button} from '@mui/material';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import {  useSelector , useDispatch} from 'react-redux';
+import { setMapStatus, setInfoStatus, setLoggedStatus } from "../store/slices/HomeSlice";
+import { setShowReport } from '../store/slices/GetAllReportSlice';
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+  color: theme.palette.text.secondary,
+}));
 
-function MyForm() {
-  const [title, setTitle] = useState('');
-  const [description, setDescription] = useState('');
+export default function MyForm() {
+  const dispatch=useDispatch();
+ // const showAllData=useSelector(state=>state.getAllReportData.showAllData);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log('Title:', title);
-    console.log('Description:', description);
-
-    // Here, you'd typically send the data to the server or handle it according to your requirements
-
-    setTitle(''); // Reset title
-    setDescription(''); // Reset description
+  const handleSetMapStatus = (bool) => {
+    dispatch(setMapStatus(bool));
+  };
+  
+  const handleSetInfoStatus = (bool) => {
+    dispatch(setInfoStatus(bool));
   };
 
+  /**const handleSetLoggedStatus = (bool) => {
+    dispatch(setLoggedStatus(bool));
+  };**/
+
+  const setShowAllReport=(bool)=>{
+    dispatch(setShowReport(bool))
+  }
+
+  const handleGetAll=()=>{
+     handleSetInfoStatus(false);
+     setShowAllReport(true);
+    // handleSetLoggedStatus(false);
+     handleSetMapStatus(false);
+
+  }
+
+  
   return (
-    <Container maxWidth="sm">
-      <Typography variant="h4" gutterBottom>
-        My Form
-      </Typography>
-      <form onSubmit={handleSubmit}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Title"
-              variant="outlined"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label="Description"
-              variant="outlined"
-              multiline
-              rows={4}
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button variant="contained" color="primary" type="submit">
-              Send
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
-    </Container>
+    <Box sx={{ width: '100%' }}>
+      <Stack spacing={2}>
+         <Item>
+         <Button varient="contained" onClick={handleGetAll}>GET ALL REPORTED</Button>
+         </Item>
+        <Item>CREATE NEW REPORT </Item>
+        <Item></Item>
+      </Stack>
+    </Box>
   );
 }
-
-export default MyForm;

@@ -11,13 +11,24 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import axios from "axios";
 import { Typography } from '@mui/material';
-import { setLogin,setRegistered } from '../../store/slices/LoginSlice';
+import { setLogin,setRegistered,setError } from '../../store/slices/LoginSlice';
 import { useDispatch,useSelector} from "react-redux";
+import { setUserId,setUserName,setEmail,setMessage,setToken } from '../../store/slices/responseDataSlice';
 import Profile from './Profile';
 export default function Login() {
   const[open,setOpen]=useState(false);
   
   const dispatch = useDispatch();
+
+//const userId = useSelector(state => state.responseData.user.id);
+const userName = useSelector(state => state.responseData.user.userName);
+//const Email = useSelector(state => state.responseData.user.email);
+//const token = useSelector(state => state.responseData.token);
+const message = useSelector(state => state.responseData.message);
+
+
+const isError=useSelector(state=>state.login.isError);
+
   const isLogin=useSelector(state=>state.login.isLogin);
   const isRegistered=useSelector(state=>state.login.isRegistered);
   const login=(bool)=>{
@@ -26,7 +37,24 @@ export default function Login() {
   const registered=(bool)=>{
     dispatch(setRegistered(bool))
   }
-
+  const changeError=(bool)=>{
+    dispatch(setError(bool));
+  }
+  const changeUserId=(data)=>{
+    dispatch(setUserId(data));
+  }
+  const changeUserName=(data)=>{
+    dispatch(setUserName(data));
+  }
+  const changeEmail=(data)=>{
+    dispatch(setEmail(data));
+  }
+  const changeToken=(data)=>{
+    dispatch(setToken(data));
+  }
+  const changeMessage=(data)=>{
+    dispatch(setMessage(data));
+  }
   const [register,setRegister]=useState(false);
 
   const [input, setInput]=useState({
@@ -34,11 +62,14 @@ export default function Login() {
         username: '',
         password: ''
   });
+
   const handleChange = (e) => {
+    changeError(false);
+    changeMessage(" ");
     const { id, value } = e.target;
     setInput(prevState => ({
-        ...prevState,  // Spread the previous state to maintain other field values
-        [id]: value    // Use the field's id to set the new value
+        ...prevState, 
+        [id]: value    
     }));
 };
 
@@ -49,46 +80,75 @@ export default function Login() {
     setOpen(true);
     login(false);
     registered(false);
+    changeUserId(" ");
+    changeUserName(" ");
+    changeEmail(" ");
+    changeToken(" ")
+    changeMessage(" ");
+    setInput({
+      email: '',
+        username: '',
+        password: ''
+    });
   };
 
   const handleClose = () => {
     setOpen(false);
+  
   };
 
-  const [loginResponseData, setLoginResponseData] = React.useState(null);
   
   const handleLoginClick = async () => {
       try {
-        console.log(input);
         const response = await axios.post('http://localhost:9000/login',input); 
-        setLoginResponseData(response.data);
-        handleToggleRegister();
+        const {user,message,token,}=response.data;
+        const {id,email,userName}=user;    
+        changeMessage(message);
+        changeToken(token)
+        changeEmail(email);
+        changeUserId(id);
+        changeUserName(userName);
+        login(true);
+        registered(false);
       } catch (error) {
+           changeError(true);
           console.error("There was an error!", error);
+          const message=error.response.data.message;
+          changeMessage(message);
       }
   };
-  console.log(loginResponseData);
+  
 
 
    
-  const [registerResponseData, setRegisterResponseData] = React.useState(null);
 
    const handleRegisterClick=async()=>{
     try {
-      console.log(input);
       const response = await axios.post('http://localhost:9000/register',input);
-        setRegisterResponseData(response);
-        handleToggleRegister();
-        registered(true);
+        const {user,message,token,}=response.data;
+        const {id,email,userName}=user;
+        console.log(response);
+        changeMessage(message);
+        changeToken(token);
+         changeEmail(email);
+         changeUserId(id);
+         changeUserName(userName);
+         handleToggleRegister();
+         registered(true);
       } catch (error) {
-      console.error('Error posting data:', error);
-    }
+        changeError(true);
+        const message=error.response.data.message;
+        changeMessage(message)
+        console.log(error);
+
+     } 
    };
    
 
   
    const handleToggleRegister = () => {
     setRegister(prev => !prev);
+    changeError(false);
     setInput({
       email: '',
         username: '',
@@ -96,24 +156,16 @@ export default function Login() {
     });
 };
 
-useEffect(() => {
-    setOpen(false);
-    if(loginResponseData){
-        login(true);
-    }
-   
-}, [loginResponseData]);  
+useEffect(() =>{
+  if(message==="Logged in Successfull"){
+      setOpen(false);
+   }
+}, [message]); 
 
-/**useEffect(() => {
-  if(registerResponseData){
-      console.log(registerResponseData);
-  }
- 
-}, [registerResponseData]); **/
 
   return (
     <div>
-    {isLogin?<Profile username={loginResponseData.user.userName}/>:
+    {isLogin?<Profile  username={userName}/>:
     <Button variant="contained" onClick={handleClickOpen}>
       LOGIN       
        </Button>}
@@ -136,7 +188,9 @@ useEffect(() => {
         </DialogTitle>
         <DialogContent>
           <DialogContentText>
-          {isRegistered ? registerResponseData.data.message : "LOGIN OR REGISTER " }
+         
+          {isRegistered ? message : "LOGIN OR REGISTER " }
+
           </DialogContentText>
           <TextField
                 autoFocus
@@ -148,6 +202,8 @@ useEffect(() => {
                 value={input.email}
                 onChange={handleChange}
             />
+            {isError && <Typography>{message}</Typography>}
+
            {register && <TextField
                 margin="dense"
                 id="username"
@@ -169,11 +225,13 @@ useEffect(() => {
           <Button onClick={register ?handleRegisterClick :handleLoginClick} variant="contained" color="primary" style={{ marginTop: '15px' }}>
            {register ?"Register" :"Login"} 
           </Button> 
-          <Link onClick={handleToggleRegister } 
           
-          href="#" style={{ display: 'block', marginTop: '10px' }}>
+          {!isRegistered  && <Link onClick={handleToggleRegister } 
+          
+        href="#" style={{ display: 'block', marginTop: '10px' }}>
            {register ? "SignUp" : "Register"} 
           </Link>
+          }
         </DialogContent>
       </Dialog>
     </div>

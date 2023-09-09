@@ -4,6 +4,7 @@ import MapComponent from "./MapComponent";
 import NavBar from "./NavBar";
 import MyForm from "../MyForm";
 import { useSelector } from "react-redux";
+import GetAll from "../GetAll";
 function Home(){
  
  const data= useSelector(state=>{
@@ -16,6 +17,7 @@ function Home(){
    console.log(isLogged);
 
 
+   const showAllData=useSelector(state=>state.getAllReportData.showAllData);
 
 
  return(
@@ -24,6 +26,7 @@ function Home(){
       {isInfoVisible && <Info/>}
       {isMapVisible && <MapComponent/>} 
       {isLogged && <MyForm/>}
+      {showAllData && <GetAll/>}
      </>
    );
 }

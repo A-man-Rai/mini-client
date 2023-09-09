@@ -2,20 +2,50 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
-import { useDispatch } from 'react-redux';
 import { setLogin } from '../../store/slices/LoginSlice';
+import { setUserId,setUserName,setEmail,setMessage,setToken } from '../../store/slices/responseDataSlice';
+import { useDispatch} from "react-redux";
+import { setLoggedStatus,setMapStatus } from '../../store/slices/HomeSlice';
  function Profile({username}) {
   const [open, setOpen] = React.useState(false);
   const dispatch=useDispatch();
-
+  
+  const isLogged=(bool)=>{
+    dispatch(setLoggedStatus(bool))
+  }
+  const showMap=(bool)=>{
+    dispatch(setMapStatus(bool))
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
   };
+  const changeUserId=(data)=>{
+    dispatch(setUserId(data));
+  }
+  const changeUserName=(data)=>{
+    dispatch(setUserName(data));
+  }
+  const changeEmail=(data)=>{
+    dispatch(setEmail(data));
+  }
+  const changeToken=(data)=>{
+    dispatch(setToken(data));
+  }
+  const changeMessage=(data)=>{
+    dispatch(setMessage(data));
+  }
 
   const handleClose = () => {
     dispatch(setLogin(false));
+    isLogged(false);
+    showMap(true);
     setOpen(false);
+   changeUserId("")
+   changeUserName(" ")
+   changeMessage(" ")
+   changeToken(" ")
+   changeEmail (" ")
   };
 
   return (

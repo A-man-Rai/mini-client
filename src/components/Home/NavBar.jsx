@@ -10,6 +10,7 @@ import Login from '../Login/Login';
 import { useDispatch ,useSelector} from "react-redux";
 // Update imported action creator names
 import { setMapStatus, setInfoStatus, setLoggedStatus } from "../../store/slices/HomeSlice";
+import { setShowReport } from '../../store/slices/GetAllReportSlice';
 
 export default function NavBar(){
   const dispatch = useDispatch();
@@ -17,7 +18,9 @@ export default function NavBar(){
   const isLogin = useSelector(state => state.login.isLogin);
 
 
- 
+  const setShowAllReport=(bool)=>{
+    dispatch(setShowReport(bool))
+  }
 
   // Use the updated action creator names
   const handleSetMapStatus = (bool) => {
@@ -49,6 +52,7 @@ export default function NavBar(){
               handleSetMapStatus(true);
               handleSetInfoStatus(false);
               handleSetLoggedStatus(false);
+              setShowAllReport(false);
             }}
           >
             <ReplyIcon />
