@@ -2,9 +2,10 @@
 import Info from "../AccidentDetails/Info"
 import MapComponent from "./MapComponent";
 import NavBar from "./NavBar";
-import MyForm from "../MyForm";
+import MyForm from "../Report/MyForm";
 import { useSelector } from "react-redux";
-import GetAll from "../GetAll";
+import GetAll from "../Report/GetAll";
+import NewReportForm from "../Report/NewReportForm";
 function Home(){
  
  const data= useSelector(state=>{
@@ -18,6 +19,7 @@ function Home(){
 
 
    const showAllData=useSelector(state=>state.getAllReportData.showAllData);
+   const showNewReport=useSelector(state=>state.getAllReportData.createNewData);
 
 
  return(
@@ -27,6 +29,7 @@ function Home(){
       {isMapVisible && <MapComponent/>} 
       {isLogged && <MyForm/>}
       {showAllData && <GetAll/>}
+      {showNewReport && <NewReportForm/>}
      </>
    );
 }

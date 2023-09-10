@@ -6,7 +6,8 @@ import { setLogin } from '../../store/slices/LoginSlice';
 import { setUserId,setUserName,setEmail,setMessage,setToken } from '../../store/slices/responseDataSlice';
 import { useDispatch} from "react-redux";
 import { setLoggedStatus,setMapStatus } from '../../store/slices/HomeSlice';
- function Profile({username}) {
+import { setArray } from '../../store/slices/UserReportsSlice'; 
+function Profile({username}) {
   const [open, setOpen] = React.useState(false);
   const dispatch=useDispatch();
   
@@ -35,8 +36,12 @@ import { setLoggedStatus,setMapStatus } from '../../store/slices/HomeSlice';
   const changeMessage=(data)=>{
     dispatch(setMessage(data));
   }
+  const setUserReport=(data)=>{
+    dispatch(setArray(data))
+      }
 
   const handleClose = () => {
+    setUserReport([]);
     dispatch(setLogin(false));
     isLogged(false);
     showMap(true);

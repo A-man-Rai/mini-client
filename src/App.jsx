@@ -1,4 +1,4 @@
-import MyForm from './components/MyForm';
+import MyForm from '../src/components/Report/MyForm';
 import './App.css';
 import Home from './components/Home/Home';
 import * as React from "react";

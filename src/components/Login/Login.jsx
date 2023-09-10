@@ -15,6 +15,7 @@ import { setLogin,setRegistered,setError } from '../../store/slices/LoginSlice';
 import { useDispatch,useSelector} from "react-redux";
 import { setUserId,setUserName,setEmail,setMessage,setToken } from '../../store/slices/responseDataSlice';
 import Profile from './Profile';
+import CircularLoading from './CircularLoading';
 export default function Login() {
   const[open,setOpen]=useState(false);
   
@@ -97,9 +98,12 @@ const isError=useSelector(state=>state.login.isError);
   
   };
 
-  
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleLoginClick = async () => {
-      try {
+      try { 
+         setIsLoading(true);
+          
         const response = await axios.post('http://localhost:9000/login',input); 
         const {user,message,token,}=response.data;
         const {id,email,userName}=user;    
@@ -110,7 +114,9 @@ const isError=useSelector(state=>state.login.isError);
         changeUserName(userName);
         login(true);
         registered(false);
+        setIsLoading(false);
       } catch (error) {
+          setIsLoading(false);
            changeError(true);
           console.error("There was an error!", error);
           const message=error.response.data.message;
@@ -158,6 +164,7 @@ const isError=useSelector(state=>state.login.isError);
 
 useEffect(() =>{
   if(message==="Logged in Successfull"){
+      
       setOpen(false);
    }
 }, [message]); 
@@ -202,6 +209,7 @@ useEffect(() =>{
                 value={input.email}
                 onChange={handleChange}
             />
+            
             {isError && <Typography>{message}</Typography>}
 
            {register && <TextField
@@ -224,8 +232,9 @@ useEffect(() =>{
             />
           <Button onClick={register ?handleRegisterClick :handleLoginClick} variant="contained" color="primary" style={{ marginTop: '15px' }}>
            {register ?"Register" :"Login"} 
-          </Button> 
           
+          </Button> 
+          {isLoading && <CircularLoading/>}
           {!isRegistered  && <Link onClick={handleToggleRegister } 
           
         href="#" style={{ display: 'block', marginTop: '10px' }}>

@@ -10,7 +10,7 @@ import Login from '../Login/Login';
 import { useDispatch ,useSelector} from "react-redux";
 // Update imported action creator names
 import { setMapStatus, setInfoStatus, setLoggedStatus } from "../../store/slices/HomeSlice";
-import { setShowReport } from '../../store/slices/GetAllReportSlice';
+import { setShowReport,setCreateData } from '../../store/slices/GetAllReportSlice';
 
 export default function NavBar(){
   const dispatch = useDispatch();
@@ -18,20 +18,22 @@ export default function NavBar(){
   const isLogin = useSelector(state => state.login.isLogin);
 
 
-  const setShowAllReport=(bool)=>{
+  const showAllReport=(bool)=>{// to get all report of user
     dispatch(setShowReport(bool))
   }
+  const createNewReport=(bool)=>{ // for new report 
+     dispatch(setCreateData(bool))
+  }
 
-  // Use the updated action creator names
-  const handleSetMapStatus = (bool) => {
+  const handleSetMapStatus = (bool) => {// to make map visible
     dispatch(setMapStatus(bool));
   };
 
-  const handleSetInfoStatus = (bool) => {
+  const handleSetInfoStatus = (bool) => {// to make map pointer details visible
     dispatch(setInfoStatus(bool));
   };
 
-  const handleSetLoggedStatus = (bool) => {
+  const handleSetLoggedStatus = (bool) => {// to make report us visible
     dispatch(setLoggedStatus(bool));
   };
 
@@ -52,7 +54,8 @@ export default function NavBar(){
               handleSetMapStatus(true);
               handleSetInfoStatus(false);
               handleSetLoggedStatus(false);
-              setShowAllReport(false);
+              createNewReport(false);
+              showAllReport(false);
             }}
           >
             <ReplyIcon />
@@ -68,6 +71,7 @@ export default function NavBar(){
               handleSetLoggedStatus(true);
               handleSetMapStatus(false);
               handleSetInfoStatus(false);
+             
             }}
           >
             Report Us
