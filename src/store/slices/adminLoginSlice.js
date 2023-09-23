@@ -10,7 +10,8 @@ const adminLoginSlice = createSlice({
         },
         token:" ",
         message:" ",
-        isLogin:false
+        isLogin:false,
+        data:[]
     },
     reducers: {
         setAdminId(state, action) {
@@ -30,10 +31,13 @@ const adminLoginSlice = createSlice({
         },
         setLogin(state,action){
            state.isLogin= action.payload;
-        }
+        },
+        setData(state,action){
+            state.data= action.payload;
+         }
     },
 });
 
 
-export const { setAdminId, setAdminName, setEmail, setToken, setMessage,setLogin } = adminLoginSlice.actions;
+export const { setAdminId, setAdminName, setEmail, setToken, setMessage,setLogin,setData } = adminLoginSlice.actions;
 export default adminLoginSlice.reducer;

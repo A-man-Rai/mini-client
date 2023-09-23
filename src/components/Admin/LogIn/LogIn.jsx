@@ -62,8 +62,7 @@ export default function LogIn() {
         dispatch(setEmail(email));
         dispatch(setMessage(message));
         dispatch(setToken(token));
-        dispatch(setLogin(false));
-       
+        dispatch(setLogin(true));
     }
    catch(err){
     console.log(err.message);

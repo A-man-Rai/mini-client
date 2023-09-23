@@ -3,6 +3,7 @@ import {  useSelector } from 'react-redux/es/hooks/useSelector'
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import NavBar from "./NavBar"
+import MapData from './MapData';
 const AdminHome = () => {
   let navigate=useNavigate();
   const isLogin=useSelector(state=>state.adminLogin.isLogin);
@@ -12,7 +13,7 @@ const AdminHome = () => {
     {isLogin ? 
     <div>
        <NavBar></NavBar>
-      <h1>ADMIN HOME</h1>
+       <MapData></MapData>
     </div>
     :
      useEffect(()=>{
