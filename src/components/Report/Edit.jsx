@@ -64,7 +64,7 @@ const dispatch=useDispatch();
 
   const handleClick =  () => {
     handleClickOpen();
-    onClick();
+    onClick(); // sets id of object which needs to be updated
 };
 
   const getUpdateData=()=>{
