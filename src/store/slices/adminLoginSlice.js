@@ -11,7 +11,10 @@ const adminLoginSlice = createSlice({
         token:" ",
         message:" ",
         isLogin:false,
-        data:[]
+        data:[],
+        showMapData:true,
+        showUsersData:false,
+        showReportsData:false,
     },
     reducers: {
         setAdminId(state, action) {
@@ -34,10 +37,19 @@ const adminLoginSlice = createSlice({
         },
         setData(state,action){
             state.data= action.payload;
-         }
+         },
+         setShowMapData(state,action){
+            state.showMapData= action.payload;
+         },
+         setShowUserData(state,action){
+            state.showUsersData= action.payload;
+         },
+         setShowReportsData(state,action){
+            state.showReportsData= action.payload;
+         },
     },
 });
 
 
-export const { setAdminId, setAdminName, setEmail, setToken, setMessage,setLogin,setData } = adminLoginSlice.actions;
+export const { setShowReportsData,setShowUserData,setShowMapData,setAdminId, setAdminName, setEmail, setToken, setMessage,setLogin,setData } = adminLoginSlice.actions;
 export default adminLoginSlice.reducer;

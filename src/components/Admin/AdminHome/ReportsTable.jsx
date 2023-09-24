@@ -8,7 +8,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
-export default function Tables() {
+export default function ReportsTable() {
   const data=useSelector(state=>state.adminLogin.data)
 console.log(data);
   return (
@@ -17,12 +17,14 @@ console.log(data);
         <TableHead>
           <TableRow>
             <TableCell>ID</TableCell>
-            <TableCell align="center">ID</TableCell>
-            <TableCell align="center">Latitude</TableCell>
-            <TableCell align="center">Longitude</TableCell>
+            <TableCell align="center">TITLE</TableCell>
+            <TableCell align="center">DESCRIPTION</TableCell>
+            <TableCell align="center">USER ID</TableCell>
+            <TableCell align="center">LATITUDE</TableCell>
+            <TableCell align="center">LONGITUDE</TableCell>
             <TableCell align="center"></TableCell>
             <TableCell align="center"></TableCell>
-
+            <TableCell align="center"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -34,15 +36,23 @@ console.log(data);
               <TableCell component="th" scope="row">
                 {row._id}
               </TableCell>
-              <TableCell align="center">{row.id}</TableCell>
+              <TableCell align="center">{row.title}</TableCell>
+              <TableCell align="center">{row.description}</TableCell>
+              <TableCell align="center">{row.userId}</TableCell>
               <TableCell align="center">{row.latitude}</TableCell>
-              <TableCell align="center">{row.longitude}</TableCell>
+              <TableCell align="center">{row.longitude}</TableCell>      
+              <TableCell align="center">
+              <Button variant="contained" color='success'>SAVE</Button>
+       
+              </TableCell>
               <TableCell align="center">
               <Button variant="contained" >EDIT</Button>
+       
               </TableCell>
-              <TableCell align="center">
-              <Button variant="contained" color="error">DELETE</Button>
-              </TableCell>
+
+              <TableCell align="center">     
+                <Button variant="contained" color="error">DELETE</Button>
+                </TableCell>
             </TableRow>
           ))}
         </TableBody>

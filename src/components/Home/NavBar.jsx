@@ -66,7 +66,9 @@ export default function NavBar(){
           
         { isLogin &&
           <Button 
-            color="inherit"
+          variant="contained"
+            color="success"
+            sx={{ mr: 2 }} 
             onClick={() => {
               handleSetLoggedStatus(true);
               handleSetMapStatus(false);
@@ -76,7 +78,7 @@ export default function NavBar(){
           >
             Report Us
           </Button> }  
-          <Login />
+          <Login  />
         </Toolbar>
       </AppBar>
     </Box>
