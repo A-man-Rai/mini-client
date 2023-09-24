@@ -17,6 +17,7 @@ import { setEmail,setAdminId,setAdminName,setMessage,setToken,setLogin } from '.
 import axios from "axios"
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import SendIcon from '@mui/icons-material/Send';
 function Copyright(props) {
  
   return (
@@ -128,10 +129,6 @@ export default function LogIn() {
               onChange={handleText}
             />
             {showMessage && message}<br/>
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
             <Button
               type="submit"
               fullWidth
@@ -140,6 +137,7 @@ export default function LogIn() {
             >
               LOG IN
             </Button>
+            
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

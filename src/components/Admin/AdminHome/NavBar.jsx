@@ -8,11 +8,14 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useNavigate } from 'react-router-dom';
 import { useSelector,useDispatch } from 'react-redux';
-import { setEmail,setAdminId,setAdminName,setMessage,setToken,setLogin } from '../../../store/slices/adminLoginSlice.js';
-
+import {setShowUserData,setShowReportsData,setShowMapData, setEmail,setAdminId,setAdminName,setMessage,setToken,setLogin } from '../../../store/slices/adminLoginSlice.js';
+import {setData} from "../../../store/slices/adminLoginSlice.js"
+import axios from "axios"
 export default function ButtonAppBar() {
     let navigate=useNavigate();
   const isLogin=useSelector(state=>state.adminLogin.isLogin);
+  const token=useSelector(state=>state.adminLogin.token);
+
    const dispatch=useDispatch();
   const handleClick=()=>{
     dispatch(setAdminId(""));
@@ -23,7 +26,47 @@ export default function ButtonAppBar() {
        dispatch(setLogin(""));
        navigate("/admin")
   }
+ 
+   
+ 
+  const handleMapData=async()=>{   // to render maps data
+    const response=await axios.get("http://localhost:9000") 
+    dispatch(setData(response.data))
+    dispatch(setShowMapData(true));
+    dispatch(setShowReportsData(false));
+    dispatch(setShowUserData(false));
+  }
+  const handleGetAllUsers=async()=>{
+    const response=await axios.get("http://localhost:9000/admin/users",{
+        headers: {
+          'Authorization': `Bearer ${token}`
+         }
+      })
+    dispatch(setData(response.data))
+}
+  const handleUsersData=()=>{ // to render Users 
+    handleGetAllUsers();
+    dispatch(setShowMapData(false));
+    dispatch(setShowReportsData(false));
+    dispatch(setShowUserData(true));
+  }
+  
+  const handleGetAllReports=async()=>{
+    const response=await axios.get("http://localhost:9000/admin/reports",{
+        headers: {
+          'Authorization': `Bearer ${token}`
+         }
+      })
+      console.log(response);
+    dispatch(setData(response.data))
+}
 
+  const handleReportData=()=>{ // to render Users 
+    handleGetAllReports();
+    dispatch(setShowMapData(false));
+    dispatch(setShowReportsData(true));
+    dispatch(setShowUserData(false));
+  }
 
 
   return (
@@ -40,8 +83,12 @@ export default function ButtonAppBar() {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            News
+            ADMIN
           </Typography>
+        
+          <Button variant="contained"  sx={{ mr: 2 }} onClick={handleMapData} color="success">Maps Data</Button>
+          <Button variant="contained"  sx={{ mr: 2 }} onClick={handleUsersData} color="success">Users</Button>
+          <Button variant="contained"  sx={{ mr: 2 }} onClick={handleReportData} color="success">Reports</Button>
           <Button color="inherit" onClick={handleClick}>Logout</Button>
         </Toolbar>
       </AppBar>
