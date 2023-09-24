@@ -5,6 +5,7 @@ import responseReducer from "./slices/responseDataSlice.js"
 import getAllReportDataReducer from "./slices/GetAllReportSlice.js"
 import userReportsReducer from "./slices/UserReportsSlice.js"
 import updateButtonReducer from "./slices/showUpdateButton.js"
+import adminLoginSlice from "./slices/adminLoginSlice.js";
 const store=configureStore({
     reducer:{
         home:homeReducer,
@@ -12,7 +13,8 @@ const store=configureStore({
         responseData:responseReducer,
         getAllReportData:getAllReportDataReducer,
         userReports:userReportsReducer,
-        updateButton:updateButtonReducer
+        updateButton:updateButtonReducer,
+        adminLogin:adminLoginSlice
     }
 })
 

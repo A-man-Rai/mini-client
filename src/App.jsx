@@ -3,6 +3,8 @@ import './App.css';
 import Home from './components/Home/Home';
 import * as React from "react";
 import ErrorPage from './components/Home/ErrorPage';
+import Admin from "./components/Admin/Admin"
+import AdminHome from "./components/Admin/AdminHome/AdminHome"
 import {
   createBrowserRouter,
   RouterProvider,
@@ -14,6 +16,20 @@ const router = createBrowserRouter([
     element: <Home/>,
     errorElement: <ErrorPage />, 
   },
+  {
+    path:"/admin",
+    element:<Admin></Admin>,
+    errorElement: <ErrorPage />, 
+  },
+  {
+    path:"/admin/home",
+    element:<AdminHome></AdminHome>,
+    errorElement: <ErrorPage />, 
+  },
+  {
+    path:"*",
+    element:<Admin></Admin>
+  }
 ]);
 
 function App(){
