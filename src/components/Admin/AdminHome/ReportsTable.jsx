@@ -10,7 +10,7 @@ import { Button } from '@mui/material';
 import { useSelector } from 'react-redux';
 export default function ReportsTable() {
   const data=useSelector(state=>state.adminLogin.data)
-console.log(data);
+//console.log(data);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
