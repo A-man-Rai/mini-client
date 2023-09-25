@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useSelector,useDispatch } from 'react-redux'
 import { useState } from 'react'
 import {setData} from "../../../store/slices/adminLoginSlice.js"
-import Tables from './Table'
+import Tables from './Tables'
 const MapData = () => {
     const dispatch=useDispatch();
     const [showTable,setShowTable]=useState(false);
@@ -15,12 +15,12 @@ const MapData = () => {
         setShowTable(true);
       }
       fetchData()
-    },[])
+    },[data])
 
   return (
     <div>
       <h1>MAP DATA</h1>
-     {showTable && <Tables id={data._id} email={data.email} username={data.userName}/>} 
+     {showTable && <Tables/>} 
     </div>
   )
 }
