@@ -36,13 +36,8 @@ export default function UsersTable() {
               <TableCell align="center">{row.email}</TableCell>
               <TableCell align="center">{row.userName}</TableCell>
               <TableCell align="center">{row.password}</TableCell>          
-              <TableCell align="center">
-              <Button variant="contained" >EDIT</Button>
-       
-              </TableCell>
-              <TableCell align="center">     
-                <Button variant="contained" color="error">DELETE</Button>
-                </TableCell>
+              <TableCell align="center"></TableCell>
+              <TableCell align="center"></TableCell>
             </TableRow>
           ))}
         </TableBody>

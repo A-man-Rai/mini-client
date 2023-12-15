@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
+import { Typography, styled } from '@mui/material'
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { Navigate } from 'react-router-dom';
@@ -17,14 +17,14 @@ import { setEmail,setAdminId,setAdminName,setMessage,setToken,setLogin } from '.
 import axios from "axios"
 import { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import SendIcon from '@mui/icons-material/Send';
+
 function Copyright(props) {
  
   return (
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="/">
-        Your Website
+        ACCIDENT PRONE MAPPING
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -85,6 +85,9 @@ export default function LogIn() {
     }
   }, [isLogin, navigate]);
 
+  const ErrorMessage=styled(Typography)`
+color:red;
+`
   return (<>
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
@@ -128,7 +131,7 @@ export default function LogIn() {
               value={data.password}
               onChange={handleText}
             />
-            {showMessage && message}<br/>
+            {showMessage && <ErrorMessage>{message}</ErrorMessage>}<br/>
             <Button
               type="submit"
               fullWidth

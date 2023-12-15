@@ -9,11 +9,14 @@ import DialogTitle from '@mui/material/DialogTitle';
 import { Fab } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from "axios"
+import {setData} from "../../../../store/slices/adminLoginSlice.js"
+
+
 
 export default function Add() {
-
+  const dispatch=useDispatch();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -24,7 +27,7 @@ export default function Add() {
     setOpen(false);
   };
   const tokens=useSelector(state=>state.adminLogin.token);
-
+ const data=useSelector(state=>state.adminLogin.data);
   const handleSave=async()=>{
     const response=await axios.post("http://localhost:9000/admin/maps",textData,{
         headers: {
@@ -35,19 +38,19 @@ export default function Add() {
         title:" ",
         description:"",
         latitude:"",
-        longitude:""
+        longitude:"",
       })
+      const res=await axios.get("http://localhost:9000")
+      dispatch(setData(res.data))
+     
+     
 
       handleClose();
 
   }
 
-  const [textData,setTextData]=useState({
-    title:" ",
-    description:"",
-    latitude:"",
-    longitude:""
-  });
+
+  
 
   const handleText=(event)=>{
     const { id, value } = event.target;
@@ -56,6 +59,14 @@ export default function Add() {
       [id]: value    
   }));
   }
+  const [textData,setTextData]=useState({
+    title:" ",
+    description:"",
+    latitude:"",
+    longitude:"",
+  });
+
+
   return (
     <div>
       <Fab onClick={handleClickOpen}  style={{float: 'right'}} color="primary" aria-label="add">
@@ -82,6 +93,8 @@ export default function Add() {
             label="Description"
             type="text"
             fullWidth
+            multiline
+            rows={4}
             variant="standard"
             onChange={handleText}
             value={textData.description}
@@ -108,6 +121,7 @@ export default function Add() {
             onChange={handleText}
             value={textData.longitude}
           />
+      
         </DialogContent>
         <DialogActions>
           <Button onClick={handleSave}>SAVE</Button>
@@ -115,4 +129,5 @@ export default function Add() {
       </Dialog>
     </div>
   );
-}
+
+  }

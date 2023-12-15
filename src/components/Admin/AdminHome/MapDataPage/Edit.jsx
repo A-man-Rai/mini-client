@@ -8,13 +8,14 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Fab } from '@mui/material';
 import { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector ,useDispatch} from 'react-redux';
 import axios from "axios"
+import {setData} from "../../../../store/slices/adminLoginSlice.js"
 import EditIcon from '@mui/icons-material/Edit';
-export default function Edit({updateId}) {
+export default function Edit({updateId,showReportUpdateButton}) {
 
   const [open, setOpen] = useState(false);
-  
+    const dispatch=useDispatch();
      const selectMapDataById= (state, mapDataId) => 
     state.adminLogin.data.find(mapData => mapData._id === mapDataId);
 
@@ -46,6 +47,32 @@ export default function Edit({updateId}) {
         latitude:"",
         longitude:""
       })
+     
+      const res=await axios.get("http://localhost:9000")
+  dispatch(setData(res.data))
+      handleClose();
+
+  }
+  const handleReportUpdate=async()=>{
+    const response=await axios.patch(`http://localhost:9000/admin/reports/${updateId}`,textData,{
+        headers: {
+          'Authorization': `Bearer ${tokens}`
+         }
+      })
+      console.log(response);
+      setTextData({
+        title:" ",
+        description:"",
+        latitude:"",
+        longitude:""
+      })
+      const res=await axios.get("http://localhost:9000/admin/reports",{
+        headers: {
+          'Authorization': `Bearer ${tokens}`
+         }
+      })
+      
+    dispatch(setData(res.data))
 
       handleClose();
 
@@ -85,6 +112,8 @@ export default function Edit({updateId}) {
             value={textData.title}
           />
           <TextField
+            multiline
+            rows={4}
             autoFocus
             margin="dense"
             id="description"
@@ -119,7 +148,7 @@ export default function Edit({updateId}) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleUpdate}>UPDATE</Button>
+          {showReportUpdateButton ?<Button onClick={handleReportUpdate}>UPDATE</Button>:<Button onClick={handleUpdate}>UPDATE</Button> }
         </DialogActions>
       </Dialog>
     </div>

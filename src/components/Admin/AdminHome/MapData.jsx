@@ -10,12 +10,14 @@ const MapData = () => {
     const data=useSelector(state=>state.adminLogin.data)
     useEffect(()=>{
       const fetchData = async () => {
-        const response=await axios.get("http://localhost:9000") 
+        const response=await axios.get("http://localhost:9000")
+        //const newArray = response.data.map(({ image, ...rest }) => rest);
         dispatch(setData(response.data))
         setShowTable(true);
       }
       fetchData()
-    },[data])
+    },[])
+  
 
   return (
     <div>

@@ -20,7 +20,7 @@ const AdminHome = () => {
        <NavBar></NavBar>
       {showMapData && <MapData></MapData>}
       {showUsersData && <UsersData></UsersData>}
-      {showReportsData && <ReportsData></ReportsData>}
+      {showReportsData && <ReportsData showReportUpdateButton={showReportsData} ></ReportsData>}
     </div>
     :
      useEffect(()=>{

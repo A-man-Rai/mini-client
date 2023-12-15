@@ -96,6 +96,9 @@ return(
     
   
 </Stack>
+{ (userReports === undefined || userReports.length == 0) &&
+  <Typography mt={5} ml={19} variant="h2"> NO REPORTS AVAILABLE</Typography>
+}
 </Box>
 
 
