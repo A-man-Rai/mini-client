@@ -78,7 +78,7 @@ dispatch(setArray(data))
     <Box sx={{ width: '100%' }}>
       <Stack spacing={2}>
          <Item>
-         <Button varient="contained" onClick={handleGetAll}>GET ALL REPORTED</Button>
+         <Button varient="contained" onClick={handleGetAll}>GET ALL REPORTS</Button>
          </Item>
         
         <Item>

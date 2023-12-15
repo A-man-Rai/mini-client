@@ -5,13 +5,15 @@ import CardContent from '@mui/material/CardContent';
 import CardActions from '@mui/material/CardActions';
 import Typography from '@mui/material/Typography';
 import { Button } from '@mui/material';
-import { useDispatch } from "react-redux";
+import { useDispatch,useSelector } from "react-redux";
+import axios from 'axios';
+import _ from 'lodash';
 // Update imported action creator names
-import { setMapStatus, setInfoStatus } from "../../store/slices/HomeSlice";
+import { setMapStatus, setInfoStatus ,setData} from "../../store/slices/HomeSlice";
 
-function CustomCard({ link }) {
+function CustomCard({title,description,id }) {
   const dispatch = useDispatch();
-
+  const isLogin=useSelector(state=>state.login.isLogin);
   // Use the updated action creator names
   const handleSetMapStatus = (bool) => {
     dispatch(setMapStatus(bool));
@@ -20,31 +22,38 @@ function CustomCard({ link }) {
   const handleSetInfoStatus = (bool) => {
     dispatch(setInfoStatus(bool));
   };
+  
+   const setOneData=(data)=>{
+    dispatch(setData(data));
+  }
+
+  const fetchbyId = async (id) => {
+    const response=await axios.get(`http://localhost:9000/${id}`) 
+    setOneData(response.data.data);
+   // console.log(response.data.data);
+  }
 
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardMedia
-        component="img"
-        alt="straw hats"
-        height="140"
-        image={link}
-      />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          STRAW HATS
+         {title}
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          One Piece is a Japanese manga series written and illustrated by Eiichiro Oda. It has been serialized in Shueisha's shōnen manga magazine Weekly Shōnen Jump since July 1997.
+         {_.truncate(description,{
+  'length': 30,
+  'omission': '....',
+  })}
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="small">Learn More</Button>
-        <Button size="small" onClick={() => {
+       {isLogin && <Button size="small" onClick={() => {
           handleSetMapStatus(false);
           handleSetInfoStatus(true);
+          fetchbyId(id)
         }}>
-          Learn More
-        </Button>
+          Read More
+        </Button>}
       </CardActions>
     </Card>
   );

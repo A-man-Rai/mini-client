@@ -6,6 +6,9 @@ const loginSlicer = createSlice({
         isLogin:false,
         isRegistered:false,
         isError:false,
+        isNotify:false,
+        latitude:"",
+        longitude:""
     },
     reducers: {
         setLogin(state, action) {
@@ -16,9 +19,18 @@ const loginSlicer = createSlice({
         },
         setError(state,action){
             state.isError=action.payload;
-        }
+        },
+        setNotify(state,action){
+            state.isNotify=action.payload;
+        },
+        setLatitude(state,action){
+            state.latitude=action.payload;
+       },
+       setLongitude(state,action){
+          state.longitude=action.payload;
+       }
     },
 });
 
 export default loginSlicer.reducer;
-export const {setLogin,setRegistered,setError } = loginSlicer.actions;
+export const {setLogin,setRegistered,setError ,setNotify,setLatitude,setLongitude} = loginSlicer.actions;

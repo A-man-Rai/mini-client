@@ -51,7 +51,26 @@ function NewReportForm() {
    }
      }
 
-  
+  const getLocation=()=>{
+    if (!navigator.geolocation) {
+      alert('Geolocation is not supported by your browser');
+      return;
+    }
+  navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setFormData({
+          ...formData,
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        
+          })
+      },
+      (error) => {
+        alert('Location permission denied');      
+        console.warn(`ERROR(${error.code}): ${error.message}`);
+      }
+  ) 
+  }
   return (
     <Box component="form" onSubmit={handleSubmit} sx={{ display: 'flex', flexDirection: 'column', gap: 2, width: 300 }}>
       <TextField 
@@ -87,7 +106,7 @@ function NewReportForm() {
         value={formData.longitude} 
         onChange={handleChange}
         />
-  
+    <Button variant='contained' onClick={getLocation}>GET CURRENT LOCATION</Button>
   
     <Button onClick={handleClick} type="submit" variant="contained" color="primary">
         Submit

@@ -13,7 +13,7 @@ import {
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Home/>,
+    element: <Home />,
     errorElement: <ErrorPage />, 
   },
   {
@@ -32,10 +32,10 @@ const router = createBrowserRouter([
   }
 ]);
 
-function App(){
+function App({handleButtonClick}){
 return (
       <div className="App">
-             <RouterProvider router={router} />
+             <RouterProvider router={router}  />
       </div>
   );
 }

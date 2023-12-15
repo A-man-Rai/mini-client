@@ -1,26 +1,24 @@
-
+import React from 'react';
 import { Card, CardContent, CardHeader, Typography } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 export default function Info() {
+  const data = useSelector(state => state.home.getDataById);
+  const info = data?.description; // Use optional chaining to handle potential undefined
+
+  // Check if info is defined before splitting
+  const lines = info ? info.split('\n') : [];
+
   return (
     <Card>
-      <CardHeader
-        title="One Piece"
-       // subheader={`Published on ${props.date}`}
-      />
+      <CardHeader title={data.title}/>
       <CardContent>
-        <Typography variant="body1">
-        One Piece (stylized in all caps) is a Japanese manga series written and
-     illustrated by Eiichiro Oda. It has been serialized in Shueisha's
-      shōnen manga magazine Weekly Shōnen Jump since July 1997,
-     with its individual chapters compiled into 106 tankōbon volumes as
-      of July 2023. The story follows the adventures of Monkey D. Luffy and
-       his crew, the Straw Hat Pirates, where he explores the Grand
-      Line in search of the mythical treasure known as the "One Piece" in
-       order to become the next King of the Pirates.
-        </Typography>
+        {lines.map((line, index) => (
+          <Typography key={index} variant="body1">
+            {line.trim()} {/* Trim to remove leading/trailing whitespaces */}
+          </Typography>
+        ))}
       </CardContent>
     </Card>
   );
 }
-
